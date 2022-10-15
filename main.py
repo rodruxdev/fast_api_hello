@@ -10,12 +10,20 @@ app = FastAPI()
 
 #Models
 
+
+class Location(BaseModel):
+  city: str
+  state: str
+  country: str
+
+
 class User(BaseModel):
   first_name: str
   last_name: str
   age: int
   hair_color: Optional[str] = None
   is_married: Optional[bool] = None
+
 
 @app.get("/")
 def home():
@@ -55,3 +63,19 @@ def show_user(
     )
 ):
   return {user_id: "It exists!"}
+
+@app.put("/user/{user_id}")
+def update_user(
+  user_id: int = Path(
+    ...,
+    gt=0,
+    title="User ID",
+    description="This is the user ID, It's a required integer and grater than 0"
+  ),
+  user: User = Body(...),
+  location: Location = Body(...)
+):
+  return {
+    "user": user,
+    "location": location
+  }
