@@ -75,12 +75,14 @@ def show_user(
     min_length=1,
     max_length=50,
     title="User Name",
-    description="This is the user's name. It's between 1 and 50 characters"
+    description="This is the user's name. It's between 1 and 50 characters",
+    example="Rocío"
     ),
-  age: str = Query(
+  age: int = Query(
     ...,
     title="User Age",
-    description="This is the person age. It's required"
+    description="This is the person age. It's required",
+    example=25
     )
 ):
   return {name: age}
@@ -91,7 +93,8 @@ def show_user(
     ...,
     gt=0,
     title="User ID",
-    description="This is the user ID, It's a required integer and grater than 0"
+    description="This is the user ID, It's a required integer and grater than 0",
+    example=123
     )
 ):
   return {user_id: "It exists!"}
@@ -102,7 +105,8 @@ def update_user(
     ...,
     gt=0,
     title="User ID",
-    description="This is the user ID, It's a required integer and grater than 0"
+    description="This is the user ID, It's a required integer and grater than 0",
+    example=123
   ),
   user: User = Body(...),
   location: Location = Body(...)
