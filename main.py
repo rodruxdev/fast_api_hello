@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from pydantic import Field
 #Fast API
 from fastapi import FastAPI
+from fastapi import status
 from fastapi import Body, Query, Path
 
 app = FastAPI()
@@ -65,18 +66,28 @@ class UserOut(UserBase):
   pass
 
 
-@app.get("/")
+@app.get(
+  path="/",
+  status_code=status.HTTP_200_OK
+  )
 def home():
   return {"Hello": "World"}
 
 # Request and Response Body
-@app.post("/user/new", response_model=UserOut)
+@app.post(
+  path="/user/new",
+  response_model=UserOut,
+  status_code=status.HTTP_201_CREATED,
+  )
 def create_user(user: User = Body(...)):
   return user
 
 # Validations Query Parameters
 
-@app.get("/user/detail/")
+@app.get(
+  path="/user/detail/",
+  status_code=status.HTTP_200_OK
+)
 def show_user(
   name: Optional[str] = Query(
     None,
@@ -95,7 +106,10 @@ def show_user(
 ):
   return {name: age}
 
-@app.get("/user/detail/{user_id}")
+@app.get(
+  path="/user/detail/{user_id}",
+  status_code=status.HTTP_200_OK
+  )
 def show_user(
   user_id: int = Path(
     ...,
@@ -107,7 +121,10 @@ def show_user(
 ):
   return {user_id: "It exists!"}
 
-@app.put("/user/{user_id}")
+@app.put(
+  path="/user/{user_id}",
+  status_code=status.HTTP_202_ACCEPTED
+  )
 def update_user(
   user_id: int = Path(
     ...,
