@@ -44,6 +44,7 @@ class User(BaseModel):
   )
   hair_color: Optional[HairColor] = Field(default=None)
   is_married: Optional[bool] = Field(default=None)
+  password: str = Field(..., min_length=8)
 
   class Config:
     schema_extra = {
@@ -52,9 +53,29 @@ class User(BaseModel):
         "last_name": "Goitia",
         "age": 24,
         "hair_color": "black",
-        "is_married": False
+        "is_married": False,
+        "password": "EsteEsUnPassword"
       }
     }
+
+class UserOut(BaseModel):
+  first_name: str = Field(
+    ...,
+    min_length=1,
+    max_length=50
+  )
+  last_name: str = Field(
+    ...,
+    min_length=1,
+    max_length=50
+  )
+  age: int = Field(
+    ...,
+    gt=0,
+    le=115,
+  )
+  hair_color: Optional[HairColor] = Field(default=None)
+  is_married: Optional[bool] = Field(default=None)
 
 
 @app.get("/")
@@ -62,7 +83,7 @@ def home():
   return {"Hello": "World"}
 
 # Request and Response Body
-@app.post("/user/new")
+@app.post("/user/new", response_model=UserOut)
 def create_user(user: User = Body(...)):
   return user
 
