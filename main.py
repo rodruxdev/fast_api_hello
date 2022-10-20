@@ -74,7 +74,8 @@ class LoginOut(BaseModel):
 
 @app.get(
   path="/",
-  status_code=status.HTTP_200_OK
+  status_code=status.HTTP_200_OK,
+  tags=["Home"]
   )
 def home():
   return {"Hello": "World"}
@@ -84,6 +85,7 @@ def home():
   path="/user/new",
   response_model=UserOut,
   status_code=status.HTTP_201_CREATED,
+  tags=["Users"]
   )
 def create_user(user: User = Body(...)):
   return user
@@ -92,7 +94,8 @@ def create_user(user: User = Body(...)):
 
 @app.get(
   path="/user/detail/",
-  status_code=status.HTTP_200_OK
+  status_code=status.HTTP_200_OK,
+  tags=["Users"]
 )
 def show_user(
   name: Optional[str] = Query(
@@ -116,7 +119,8 @@ users = [1, 2, 3, 4, 5]
 
 @app.get(
   path="/user/detail/{user_id}",
-  status_code=status.HTTP_200_OK
+  status_code=status.HTTP_200_OK,
+  tags=["Users"]
   )
 def show_user(
   user_id: int = Path(
@@ -136,7 +140,8 @@ def show_user(
 
 @app.put(
   path="/user/{user_id}",
-  status_code=status.HTTP_202_ACCEPTED
+  status_code=status.HTTP_202_ACCEPTED,
+  tags=["Users"]
   )
 def update_user(
   user_id: int = Path(
@@ -159,7 +164,8 @@ def update_user(
 @app.post(
   path="/login",
   response_model=LoginOut,
-  status_code=status.HTTP_200_OK
+  status_code=status.HTTP_200_OK,
+  tags=["Users"]
 )
 def login(username: str = Form(...), password: str = Form(...)):
   return LoginOut(username=username)
@@ -167,7 +173,8 @@ def login(username: str = Form(...), password: str = Form(...)):
 # Cookies and Headers Parameters
 @app.post(
   path="/contact",
-  status_code=status.HTTP_200_OK
+  status_code=status.HTTP_200_OK,
+  tags=["Contact"]
 )
 def contact(
   first_name: str = Form(
@@ -193,7 +200,8 @@ def contact(
 # Files
 
 @app.post(
-  path="/post-image"
+  path="/post-image",
+  tags=["Images"]
 )
 def post_image(
   image: UploadFile = File(...)
