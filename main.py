@@ -107,7 +107,8 @@ def create_user(user: User = Body(...)):
 @app.get(
   path="/user/detail/",
   status_code=status.HTTP_200_OK,
-  tags=["Users"]
+  tags=["Users"],
+  deprecated=True
 )
 def show_user(
   name: Optional[str] = Query(
