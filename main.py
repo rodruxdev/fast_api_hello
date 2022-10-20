@@ -85,9 +85,21 @@ def home():
   path="/user/new",
   response_model=UserOut,
   status_code=status.HTTP_201_CREATED,
-  tags=["Users"]
+  tags=["Users"],
+  summary="Create user in the app"
   )
 def create_user(user: User = Body(...)):
+  """
+  Create User
+
+  This path operation creates a user in the app and save the information in the database
+
+  Parameters:
+  - Request body parameter
+    - **person: Person** -> A person model with first name, last name, age, hair color and marital status.
+
+  Returns a person model with first name, last name, age, hair color and marital status.
+  """
   return user
 
 # Validations Query Parameters
