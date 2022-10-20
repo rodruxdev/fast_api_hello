@@ -8,6 +8,7 @@ from pydantic import EmailStr
 #Fast API
 from fastapi import FastAPI
 from fastapi import status
+from fastapi import HTTPException
 from fastapi import Body, Query, Path, Form, Header, Cookie, File, UploadFile
 
 app = FastAPI()
@@ -111,6 +112,8 @@ def show_user(
 ):
   return {name: age}
 
+users = [1, 2, 3, 4, 5]
+
 @app.get(
   path="/user/detail/{user_id}",
   status_code=status.HTTP_200_OK
@@ -124,6 +127,11 @@ def show_user(
     example=123
     )
 ):
+  if user_id not in users:
+    raise HTTPException(
+      status_code=status.HTTP_404_NOT_FOUND,
+      detail="This user doesn't exists."
+    )
   return {user_id: "It exists!"}
 
 @app.put(
